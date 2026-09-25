@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Support CRM — Tickets</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800">
+
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div>
+        <h1 class="text-xl font-semibold text-slate-900">Support Ticket CRM</h1>
+        <p class="text-sm text-slate-500">Datastraw Technologies</p>
+      </div>
+      <button id="newTicketBtn"
+        class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-lg text-sm shadow-sm">
+        + New Ticket
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6">
+
+    <!-- Search + filter -->
+    <div class="flex flex-col sm:flex-row gap-3 mb-4">
+      <input id="searchInput" type="text" placeholder="Search by name, email, ID, or keyword…"
+        class="flex-1 border border-slate-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      <select id="statusFilter"
+        class="border border-slate-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <option value="">All Statuses</option>
+        <option value="Open">Open</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Closed">Closed</option>
+      </select>
+    </div>
+
+    <!-- Ticket table -->
+    <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-100 text-slate-600 text-left">
+          <tr>
+            <th class="px-4 py-3 font-medium">ID</th>
+            <th class="px-4 py-3 font-medium">Customer</th>
+            <th class="px-4 py-3 font-medium hidden md:table-cell">Subject</th>
+            <th class="px-4 py-3 font-medium">Status</th>
+            <th class="px-4 py-3 font-medium hidden sm:table-cell">Priority</th>
+            <th class="px-4 py-3 font-medium hidden lg:table-cell">Assigned</th>
+            <th class="px-4 py-3 font-medium">Date</th>
+          </tr>
+        </thead>
+        <tbody id="ticketRows" class="divide-y divide-slate-100"></tbody>
+      </table>
+      <div id="emptyState" class="hidden text-center text-slate-400 py-12 text-sm">
+        No tickets found.
+      </div>
+    </div>
+  </main>
+
+  <!-- Create Ticket Modal -->
+  <div id="modalOverlay" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-20">
+    <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
+      <h2 class="text-lg font-semibold mb-4">New Ticket</h2>
+      <form id="ticketForm" class="space-y-3">
+        <div>
+          <label class="text-xs font-medium text-slate-600">Customer Name</label>
+          <input required name="customer_name" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1" />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate-600">Customer Email</label>
+          <input required type="email" name="customer_email" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1" />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate-600">Subject</label>
+          <input required name="subject" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1" />
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate-600">Description</label>
+          <textarea required name="description" rows="3" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1"></textarea>
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate-600">Priority</label>
+          <select name="priority" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1">
+            <option>Low</option>
+            <option selected>Normal</option>
+            <option>High</option>
+            <option>Urgent</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate-600">Screenshots (optional)</label>
+          <input id="createFileInput" type="file" accept="image/*" multiple
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1" />
+          <p class="text-xs text-slate-400 mt-1">Select one or more images</p>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" id="cancelBtn" class="px-4 py-2 text-sm rounded-lg text-slate-600 hover:bg-slate-100">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-sm rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium">Create Ticket</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/index.js"></script>
+</body>
+</html>
